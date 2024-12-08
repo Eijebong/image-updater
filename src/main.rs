@@ -27,6 +27,7 @@ async fn main() -> Result<()> {
     env_logger::init();
 
     let temp_dir = TempDir::with_prefix("image-updater")?;
+    let prefix = std::env::var("PREFIX").unwrap_or_else(|_| "/".to_string());
 
     let config = Config {
         repository_url: std::env::var("REPOSITORY_URL").context("REPOSITORY_URL")?,
@@ -46,7 +47,7 @@ async fn main() -> Result<()> {
     log::info!("Starting rocket");
 
     rocket::build()
-        .mount("/", routes![root])
+        .mount(&prefix, routes![root])
         .manage(config)
         .launch()
         .await?;
