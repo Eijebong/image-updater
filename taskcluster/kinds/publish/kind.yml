@@ -1,0 +1,20 @@
+loader: taskgraph.loader.transform:loader
+
+transforms:
+  - eije_taskgraph.transforms.push_image
+  - taskgraph.transforms.run
+  - taskgraph.transforms.task
+  - eije_taskgraph.transforms.common
+
+kind-dependencies:
+  - docker-image
+
+task-defaults:
+  worker-type: "linux-small"
+  run-on-tasks-for: ["github-push"]
+  run-on-git-branches: ["main"]
+
+tasks:
+  image-updater:
+    repo: ghcr.io/eijebong/image-updater
+    secret: github_deploy
