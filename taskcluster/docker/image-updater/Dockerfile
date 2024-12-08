@@ -14,7 +14,7 @@ FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
-    apt install -y libgit2-1.5 openssh-client && \
+    apt install -y libgit2-1.5 openssh-client ca-certificates openssl && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 RUN useradd -m worker
