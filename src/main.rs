@@ -2,7 +2,7 @@ use std::{collections::HashMap, io::BufReader, path::Path, str::FromStr};
 
 use anyhow::{Context, Result};
 use config::Config;
-use git2::{Cred, Direction, IndexAddOption, RemoteCallbacks, Repository, ResetType, Signature};
+use git2::{Cred, Direction, IndexAddOption, RemoteCallbacks, Repository, RepositoryInitOptions, ResetType, Signature};
 use oci_distribution::{client::ClientConfig, secrets::RegistryAuth, Client, Reference};
 use overrides::Overrides;
 use regex::Regex;
@@ -336,7 +336,10 @@ fn is_argo_app(value: &HashMap<String, Value>) -> bool {
 fn clone_or_reset(repo_url: &str, repo_path: &Path, ssh_key_path: &Path) -> Result<Repository> {
     log::info!("Resetting upstream repo");
 
-    let repo = Repository::init(repo_path)?;
+    let mut init_opts = RepositoryInitOptions::new();
+    init_opts.initial_head("main");
+
+    let repo = Repository::init_opts(repo_path, &init_opts)?;
     {
         let mut remote = repo
             .find_remote("origin")
