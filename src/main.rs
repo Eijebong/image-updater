@@ -236,6 +236,7 @@ fn find_candidates(repo_path: &Path) -> Result<Vec<Candidate>> {
 }
 
 fn get_candidates_from(file_path: &Path) -> Result<Vec<Candidate>> {
+    log::trace!("Looking at {:?}", file_path);
     let content = std::fs::read_to_string(file_path)?;
 
     let yaml = content
