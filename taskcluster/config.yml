@@ -3,7 +3,7 @@ trust-domain: "ap"
 task-priority: low
 
 taskgraph:
-  cached-task-prefix: "ap.v2.image-updater"
+  cached-task-prefix: "ap.image-updater"
   repositories:
     image_updater:
       name: "image-updater"
